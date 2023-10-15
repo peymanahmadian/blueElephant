@@ -1,7 +1,6 @@
 
 import {initializeApp} from 'firebase/app';
-import { getToken,getMessaging, onMessage, } from 'firebase/messaging';
-import {getAnalytics} from "firebase/analytics";
+import { getToken,getMessaging, onMessage } from 'firebase/messaging';
 const firebaseConfig = {
   apiKey: "AIzaSyD6D8gXL_CdaaBkytUPe4iGrVzscjhfE4w",
   authDomain: "blueelephant-eff6d.firebaseapp.com",
@@ -13,20 +12,16 @@ const firebaseConfig = {
 };
 
 const Firebase = initializeApp(firebaseConfig);
-const analytic=getAnalytics(Firebase);
 export const messaging=getMessaging(Firebase);
 export const requestPermission=()=>{
   Notification.requestPermission().then((permission)=>{
-    debugger;
     if(permission==="granted"){
       return getToken(messaging,{
         vapidKey:"BIIHZVBXJ8-7Svdj3_it1xaQ_4ktTZqDFpz4NN1rkM1bITj_q5b9JAPtM5tcYskKojtxP82YEZwvLFdK2AE3Gwc"
       }).then(currentToken=>{
         if(currentToken){
           console.log("current token is",currentToken);
-          onMessage(messaging,(payload)=>{
-            alert(payload.notification?.title?.toString())
-          })
+
 
 
           
@@ -42,7 +37,7 @@ export const requestPermission=()=>{
     }
   })
 }
-
+requestPermission();
 export const onMessageListener=()=>{
   return new Promise(resolve=>{
     onMessage(messaging,payload=>{
