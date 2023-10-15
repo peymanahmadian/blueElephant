@@ -1,6 +1,6 @@
 
 import {initializeApp} from 'firebase/app';
-import { getToken,getMessaging, onMessage } from 'firebase/messaging';
+import { getToken,getMessaging, onMessage, } from 'firebase/messaging';
 import {getAnalytics} from "firebase/analytics";
 const firebaseConfig = {
   apiKey: "AIzaSyD6D8gXL_CdaaBkytUPe4iGrVzscjhfE4w",
@@ -24,6 +24,10 @@ export const requestPermission=()=>{
       }).then(currentToken=>{
         if(currentToken){
           console.log("current token is",currentToken);
+          onMessage(messaging,(payload)=>{
+            alert(payload.notification?.title?.toString())
+          })
+
 
           
         }else{
