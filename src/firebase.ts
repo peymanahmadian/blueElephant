@@ -14,7 +14,7 @@ const firebaseConfig = {
 
 const Firebase = initializeApp(firebaseConfig);
 const analytic=getAnalytics(Firebase);
-const messaging=getMessaging(Firebase);
+export const messaging=getMessaging(Firebase);
 export const requestPermission=()=>{
   Notification.requestPermission().then((permission)=>{
     debugger;
@@ -46,4 +46,5 @@ export const onMessageListener=()=>{
     })
   })
 }
+
 export default Firebase;
