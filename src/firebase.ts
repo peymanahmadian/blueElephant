@@ -1,16 +1,19 @@
 
 import {initializeApp} from 'firebase/app';
 import { getToken,getMessaging, onMessage } from 'firebase/messaging';
+import {getAnalytics} from "firebase/analytics";
 const firebaseConfig = {
   apiKey: "AIzaSyD6D8gXL_CdaaBkytUPe4iGrVzscjhfE4w",
   authDomain: "blueelephant-eff6d.firebaseapp.com",
   projectId: "blueelephant-eff6d",
   storageBucket: "blueelephant-eff6d.appspot.com",
   messagingSenderId: "885080173333",
-  appId: "1:885080173333:web:5a406b18b0dea6f24d171c"
+  appId: "1:885080173333:web:5a406b18b0dea6f24d171c",
+  measurementId: "G-0N7TB5G06H"
 };
 
 const Firebase = initializeApp(firebaseConfig);
+const analytic=getAnalytics(Firebase);
 const messaging=getMessaging(Firebase);
 export const requestPermission=()=>{
   Notification.requestPermission().then((permission)=>{
@@ -21,6 +24,8 @@ export const requestPermission=()=>{
       }).then(currentToken=>{
         if(currentToken){
           console.log("current token is",currentToken);
+
+          
         }else{
           console.log("token generate is failed")
         }
@@ -35,7 +40,7 @@ export const requestPermission=()=>{
 }
 
 export const onMessageListener=()=>{
-  new Promise(resolve=>{
+  return new Promise(resolve=>{
     onMessage(messaging,payload=>{
       resolve(payload)
     })
