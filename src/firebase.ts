@@ -1,12 +1,44 @@
-import {initializeApp} from "firebase/app";
+
+import {initializeApp} from 'firebase/app';
+import { getToken,getMessaging, onMessage } from 'firebase/messaging';
 const firebaseConfig = {
-    apiKey: "AIzaSyDdAYS1R0reI4Kl5M0AlEhf-cG473-mQGU",
-    authDomain: "blueelephant-22b53.firebaseapp.com",
-    databaseURL: "https://blueelephant-22b53-default-rtdb.asia-southeast1.firebasedatabase.app",
-    projectId: "blueelephant-22b53",
-    storageBucket: "blueelephant-22b53.appspot.com",
-    messagingSenderId: "726714207423",
-    appId: "1:726714207423:web:ae4f5b1e8de5ff84fb8a0a",
-    measurementId: "G-WW0NJ0FL51"
-  };
-export const FireBaseApp=()=>initializeApp(firebaseConfig);
+  apiKey: "AIzaSyD6D8gXL_CdaaBkytUPe4iGrVzscjhfE4w",
+  authDomain: "blueelephant-eff6d.firebaseapp.com",
+  projectId: "blueelephant-eff6d",
+  storageBucket: "blueelephant-eff6d.appspot.com",
+  messagingSenderId: "885080173333",
+  appId: "1:885080173333:web:5a406b18b0dea6f24d171c"
+};
+
+const Firebase = initializeApp(firebaseConfig);
+const messaging=getMessaging(Firebase);
+export const requestPermission=()=>{
+  Notification.requestPermission().then((permission)=>{
+    debugger;
+    if(permission==="granted"){
+      return getToken(messaging,{
+        vapidKey:"BIIHZVBXJ8-7Svdj3_it1xaQ_4ktTZqDFpz4NN1rkM1bITj_q5b9JAPtM5tcYskKojtxP82YEZwvLFdK2AE3Gwc"
+      }).then(currentToken=>{
+        if(currentToken){
+          console.log("current token is",currentToken);
+        }else{
+          console.log("token generate is failed")
+        }
+      }).catch(err=>{
+        console.log("error occurred to revice token ",err)
+      })
+    }
+    else{
+      console.log("user permission is denied")
+    }
+  })
+}
+
+export const onMessageListener=()=>{
+  new Promise(resolve=>{
+    onMessage(messaging,payload=>{
+      resolve(payload)
+    })
+  })
+}
+export default Firebase;
